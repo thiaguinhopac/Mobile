@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bgRGB"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/design_default_color_secondary"
+    tools:context=".screens.RGBScreen">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="957dp"
+        android:layout_height="1293dp"
+        app:srcCompat="@drawable/backgroundrgb"
+        tools:layout_editor_absoluteX="-142dp"
+        tools:layout_editor_absoluteY="-244dp" />
+
+    <LinearLayout
+        android:layout_width="392dp"
+        android:layout_height="93dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        tools:layout_editor_absoluteY="692dp">
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            style="@style/Widget.MaterialComponents.MaterialCalendar.HeaderToggleButton"
+            android:layout_width="73dp"
+            android:layout_height="71dp"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/colorpicker" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
