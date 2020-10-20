@@ -10,34 +10,55 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.homeapp.R;
+import com.example.homeapp.entities.JSON;
+import com.example.homeapp.entities.UDP;
+
+import org.json.JSONException;
+
+import java.io.IOException;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 
 public class RGBScreen extends AppCompatActivity {
 
     private View contentView;
     int color =  0xffffff00;
+    UDP udp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_r_g_b_screen);
-        
-        contentView = (View) findViewById(R.id.bgRGB);
-        ImageButton floatingActionButton = findViewById(R.id.imageButton);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openDialog(true);
-            }
-        });
 
+        try {
+            contentView = (View) findViewById(R.id.bgRGB);
+            ImageButton floatingActionButton = findViewById(R.id.imageButton);
+            floatingActionButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showPopup();
+                }
+            });
+
+            udp = new UDP();
+
+        } catch (UnknownHostException | SocketException e) {
+            e.printStackTrace();
+        }
 
     }
 
-    private void openDialog(boolean supportsAlpha) {
-        AmbilWarnaDialog dialog = new AmbilWarnaDialog(RGBScreen.this, color, supportsAlpha, new AmbilWarnaDialog.OnAmbilWarnaListener() {
+    private void showPopup() {
+        AmbilWarnaDialog dialog = new AmbilWarnaDialog(RGBScreen.this, color, true, new AmbilWarnaDialog.OnAmbilWarnaListener() {
             @Override
             public void onOk(AmbilWarnaDialog dialog, int color) {
-                contentView.setBackgroundColor(color);
+                try {
+                    String hexColor = String.format("#%06X", (0xFFFFFF & color));
+                    udp.sendEcho(JSON.getJson("RGB", hexColor));
+                    contentView.setBackgroundColor(color);
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
