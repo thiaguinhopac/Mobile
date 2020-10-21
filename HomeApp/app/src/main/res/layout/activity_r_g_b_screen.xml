@@ -30,5 +30,7 @@
             android:layout_height="71dp"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/colorpicker" />
+
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

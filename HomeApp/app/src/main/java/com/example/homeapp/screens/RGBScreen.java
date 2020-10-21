@@ -1,7 +1,6 @@
 package com.example.homeapp.screens;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
 import android.os.Bundle;
