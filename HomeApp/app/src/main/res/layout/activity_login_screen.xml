@@ -24,11 +24,11 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="411dp"
-        android:layout_height="649dp"
+        android:layout_height="705dp"
         android:gravity="center"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="82dp">
+        tools:layout_editor_absoluteY="26dp">
 
         <TextView
             android:id="@+id/textView"
@@ -43,7 +43,7 @@
             android:layout_height="17dp" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName"
+            android:id="@+id/user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -67,7 +67,7 @@
             android:layout_height="17dp" />
 
         <EditText
-            android:id="@+id/editTextTextPassword"
+            android:id="@+id/pass"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -86,5 +86,18 @@
             android:text="Entrar"
             android:textColor="@color/design_default_color_background"
             android:textSize="18sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+
+        <RadioButton
+            android:id="@+id/biometria"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/ambilwarna_target"
+            android:text="Biometria"
+            android:textColor="@color/design_default_color_background" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

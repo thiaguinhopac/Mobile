@@ -10,4 +10,13 @@ public class JSON {
         my_obj.put("data", data);
         return my_obj.toString();
     }
+
+    public static JSONObject parseJson(String json){
+        try {
+            return new JSONObject(json);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

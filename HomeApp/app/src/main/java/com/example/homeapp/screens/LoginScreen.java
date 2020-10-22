@@ -1,9 +1,11 @@
 package com.example.homeapp.screens;
 
-iimport android.os.Bundle;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -13,26 +15,59 @@ import com.an.biometric.BiometricCallback;
 import com.an.biometric.BiometricManager;
 
 import com.example.homeapp.R;
+import com.example.homeapp.entities.FileAndroid;
+import com.example.homeapp.entities.JSON;
+import com.example.homeapp.entities.UDP;
+
+import org.json.JSONObject;
 
 
 public class LoginScreen extends AppCompatActivity implements BiometricCallback {
     private Button button;
-    BiometricManager mBiometricManager;
+    private BiometricManager mBiometricManager;
+    private TextView user;
+    private TextView pass;
+    private RadioButton biometria;
+    private JSONObject biometricValue;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
-
+        user = findViewById(R.id.user);
+        pass = findViewById(R.id.pass);
         button = findViewById(R.id.enterLogin);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        biometria = findViewById(R.id.biometria);
+        biometricValue = JSON.parseJson(FileAndroid.readFromFile(getApplicationContext()));
 
+
+        biometria.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(biometricValue.get("cmd")){
+
+                }
             }
         });
 
-        if(/*se ativado a opçao de biometria*/){
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    UDP udp = new UDP();
+                    if(udp.sendEcho(JSON.getJson("LOGIN", user.getText().toString() + " " + pass.getText().toString())).equals("PASS")){
+                        Intent intent = new Intent(getApplicationContext(), HomeScreen.class);
+                        startActivity(intent);
+                    } else
+                        Toast.makeText(getApplicationContext(), "LOGIN FAILED", Toast.LENGTH_LONG).show();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        if(biometricValue){
             mBiometricManager = new BiometricManager.BiometricBuilder(LoginScreen.this)
                     .setTitle("Entrar")
                     .setSubtitle("biometria")
@@ -87,7 +122,14 @@ public class LoginScreen extends AppCompatActivity implements BiometricCallback 
 
     @Override
     public void onAuthenticationSuccessful() {
-        Toast.makeText(getApplicationContext(), "biometric_success", Toast.LENGTH_LONG).show();
+        try {
+            Toast.makeText(getApplicationContext(), "biometric_success", Toast.LENGTH_LONG).show();
+            Thread.sleep(700);
+            Intent intent = new Intent(getApplicationContext(), HomeScreen.class);
+            startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
