@@ -19,6 +19,7 @@ import com.example.homeapp.entities.FileAndroid;
 import com.example.homeapp.entities.JSON;
 import com.example.homeapp.entities.UDP;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 
@@ -44,8 +45,16 @@ public class LoginScreen extends AppCompatActivity implements BiometricCallback 
         biometria.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(biometricValue.get("cmd")){
-
+                try {
+                    if((boolean)biometricValue.get("data")){
+                        biometria.setChecked(false);
+                        FileAndroid.writeToFile(JSON.getJson("BIOMETRIA", "false"), getApplicationContext());
+                    } else {
+                        biometria.setChecked(true);
+                        FileAndroid.writeToFile(JSON.getJson("BIOMETRIA", "true"), getApplicationContext());
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -67,16 +76,20 @@ public class LoginScreen extends AppCompatActivity implements BiometricCallback 
             }
         });
 
-        if(biometricValue){
-            mBiometricManager = new BiometricManager.BiometricBuilder(LoginScreen.this)
-                    .setTitle("Entrar")
-                    .setSubtitle("biometria")
-                    .setDescription("Para entrar no aplicativo use a biometria")
-                    .setNegativeButtonText("Cancel")
-                    .build();
+        try {
+            if((boolean)biometricValue.get("data")){
+                mBiometricManager = new BiometricManager.BiometricBuilder(LoginScreen.this)
+                        .setTitle("Entrar")
+                        .setSubtitle("biometria")
+                        .setDescription("Para entrar no aplicativo use a biometria")
+                        .setNegativeButtonText("Cancel")
+                        .build();
 
-            //start authentication
-            mBiometricManager.authenticate(LoginScreen.this);
+                //start authentication
+                mBiometricManager.authenticate(LoginScreen.this);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
     }
